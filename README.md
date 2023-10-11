@@ -1,7 +1,7 @@
 
-# GROUPIE-TRACKER-Visualizations
-* `bbilisbe` 
-* `yekuanysh` 
+# GROUPIE-TRACKER
+* `Bagdat Bilisbek` 
+* `Yerlan Kuanysh` 
 
 
 
@@ -16,12 +16,12 @@ And build a user friendly website where you can display the bands info through s
 ## Usage/Examples
 Cloning storage to your host
 ```CMD/Terminal 
-git clone git@git.01.alem.school:bbilisbe/groupie-tracker-visualizations.git
+git clone https://github.com/blsbk/groupie-tracker.git
 ```
 Go to the downloaded repository:
 
 ```CMD/Terminal 
-cd groupie-tracker-visualizations
+cd groupie-tracker
 ```
 Run a program:
 ```CMD/Terminal 
