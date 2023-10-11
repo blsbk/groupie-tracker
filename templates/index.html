@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/styles/normalize.css" >
+    <link rel="stylesheet" type="text/css" href="/styles/stylesheet.css" >
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+    <title>Groupie-Tracker</title>
+
+</head>
+
+<body>
+    <header id="header">
+        <div class="navbar card">
+            <div >
+                <a href="/">Groupie-Tracker</a>
+            </div>
+        </div>
+    </header>
+
+    <div style="float: left; margin: 2%;">
+
+    <div class="search-container">
+        <form method="POST" action="/">
+            <div class="search-box">
+                <input type="text" id="targetBox" name="target" class="search-input" placeholder="Search" list="datalistOptions">
+                <datalist id="datalistOptions">
+                    {{range $i, $v := .Search.All}}
+                    <option value="{{$i}}"></option>
+                    {{end}}
+                </datalist>
+                <input type="submit" class="search-logo" value="&#128269;">
+              
+            </div>
+        </form>
+    </div>
+
+    <br>
+
+    <div class="dropdown" style="float: left;">
+        <form method="POST" action="/">
+            <button class="dropbtn">+ Add filter
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <!-- Range Filter -->
+                <div class="range-filter-container">
+                    <div class="row">
+                        <div class="col">
+                            <label for="debut-datef-filter">Creation Date <br> From:</label>
+                            <input type="range" name="debutDatef" id="debut-datef-filter" min="1957" max="2023" step="1" value="1957">
+                            <output for="debut-datef-filter" id="debut-datef-output"><span id="selected-debut-date"></span></output>
+                        </div>
+            
+                        <div class="col">
+                            <label for="debut-datet-filter">Creation Date <br> To:</label>
+                            <input type="range" name="debutDatet" id="debut-datet-filter" min="1957" max="2023" step="1" value="2023">
+                            <output for="debut-datet-filter" id="debut-datet-output"> <span id="selected-debut-date-to"></span></output>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="range-filter-container">
+                    <div class="row">
+                        <div class="col">
+                            <label for="album-datef-filter">First Album Date <br> From:</label>
+                            <input type="range" name="albumDatef" id="album-datef-filter" min="1957" max="2023" step="1" value="1957">
+                            <output for="album-datef-filter" id="album-datef-output"><span id="selected-album-date"></span></output>
+                        </div>
+   
+                        <div class="col">
+                            <label for="album-datet-filter">First Album Date <br> To:</label>
+                            <input type="range" name="albumDatet" id="album-datet-filter" min="1957" max="2023" step="1" value="2023">
+                            <output for="album-datet-filter" id="album-datet-output"><span id="selected-album-date-to"></span></output>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Checkbox Filter -->
+                <div class="checkbox-filter-container">
+                    <label for="checkbox-filter">Members:</label>
+                    <input type="checkbox" name="members" id="checkbox-filter" value="1"> 1
+                    <input type="checkbox" name="members" id="checkbox-filter" value="2"> 2
+                    <input type="checkbox" name="members" id="checkbox-filter" value="3"> 3
+                    <input type="checkbox" name="members" id="checkbox-filter" value="4"> 4
+                    <input type="checkbox" name="members" id="checkbox-filter" value="5"> 5
+                    <input type="checkbox" name="members" id="checkbox-filter" value="6"> 6
+                    <input type="checkbox" name="members" id="checkbox-filter" value="7"> 7
+                </div>
+                <label for="locationBox">Location:</label>
+                <div class="search-box">
+                    <input type="text" id="locationBox" name="location" class="search-input" list="locationOptions" >
+                    <datalist id="locationOptions">
+                        {{range $i, $v := .Search.Locations}}
+                        <option value="{{$i}}"></option>
+                        {{end}}
+                    </datalist>
+                    <input type="submit" class="search-logo" value="&#128269;">
+                  
+                </div>
+                <br>
+                <input type="submit" value="Apply Filters">
+                <button type="button" onclick="resetFilters()" style="float: right;">Reset Filters</button>
+
+            </div>
+        </form>
+    </div>
+           
+    </div>
+
+    <div class="container">
+        {{range $i, $v := .Main}}
+        <div class="column">
+            <a href="/artist/{{$v.ID}}" style="text-decoration: none;color: black;">
+                <img src="{{$v.Image}}" alt="{{$v.Name}}">
+                <h2>{{$v.Name}}</h2>
+            </a>
+            <p>Since: {{$v.CreationDate}}</p>
+        </div>
+        {{end}}
+        <!-- Add more columns here if needed -->
+    </div>
+
+
+
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2023 Groupie-Tracker. All rights reserved.</p>
+            <p>Designed by <a href="https://01.alem.school/git/bbilisbe/groupie-tracker">bbilisbe and yekuanysh</a></p>
+        </div>
+    </footer>
+
+    <script>
+          // JavaScript code
+
+          const debutDatefFilter = document.getElementById('debut-datef-filter');
+        const debutDatetFilter = document.getElementById('debut-datet-filter');
+        const albumDatefFilter = document.getElementById('album-datef-filter');
+        const albumDatetFilter = document.getElementById('album-datet-filter');
+
+        const selectedDebutDate = document.getElementById('selected-debut-date');
+        const selectedDebutDateTo = document.getElementById('selected-debut-date-to');
+        const selectedAlbumDate = document.getElementById('selected-album-date');
+        const selectedAlbumDateTo = document.getElementById('selected-album-date-to');
+
+        selectedDebutDate.textContent = debutDatefFilter.value;
+        selectedDebutDateTo.textContent = debutDatetFilter.value;
+        selectedAlbumDate.textContent = albumDatefFilter.value;
+        selectedAlbumDateTo.textContent = albumDatetFilter.value;
+
+        debutDatefFilter.addEventListener('input', () => {
+            selectedDebutDate.textContent = debutDatefFilter.value;
+        });
+
+        debutDatetFilter.addEventListener('input', () => {
+            selectedDebutDateTo.textContent = debutDatetFilter.value;
+        });
+
+        albumDatefFilter.addEventListener('input', () => {
+            selectedAlbumDate.textContent = albumDatefFilter.value;
+        });
+
+        albumDatetFilter.addEventListener('input', () => {
+            selectedAlbumDateTo.textContent = albumDatetFilter.value;
+        });
+        
+        function getSelectedCheckboxValues() {
+            const checkboxes = document.querySelectorAll('input[name="members"]:checked');
+            const values = [];
+            checkboxes.forEach(checkbox => values.push(checkbox.value));
+            return values;
+        }
+        function resetFilters() {
+            // Reset range filters
+            debutDatefFilter.value = debutDatefFilter.min;
+            debutDatetFilter.value = debutDatetFilter.max;
+            albumDatefFilter.value = albumDatefFilter.min;
+            albumDatetFilter.value = albumDatetFilter.max;
+
+            // Reset range filter outputs
+            debutDatefOutput.textContent = debutDatefFilter.value;
+            debutDatetOutput.textContent = debutDatetFilter.value;
+            albumDatefOutput.textContent = albumDatefFilter.value;
+            albumDatetOutput.textContent = albumDatetFilter.value;
+
+            // Reset checkbox filter
+            const inputs = document.querySelectorAll('#checkbox-filter');
+            inputs.forEach(input => {
+                input.checked = false
+            });
+           
+            const locationFilter = document.getElementById('locationBox');
+            locationFilter.textContent = false
+        }
+
+        window.addEventListener('scroll', function() {
+        const header = document.getElementById('header');
+        const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollPosition > 0) {
+            header.classList.add('sticky');
+        } else {
+            header.classList.remove('sticky');
+        }
+        });
+
+    </script>
+
+    </script>
+</body>
+
+</html>

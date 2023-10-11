@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{.ArtistInfo.Name}}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZ65aafPZP_EQ6292Zb-5_GvZsKG_RE68"></script>
+<link rel="stylesheet" type="text/css" href="/styles/normalize.css" >
+<link rel="stylesheet" type="text/css" href="/styles/stylesheet.css" >
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+<link rel="shortcut icon" type="image/jpg" href="/css/favi.jpg"/>
+<style>
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: 5px;
+}
+#googleMap {
+  width: 1000px; /* Adjust width as needed */
+  height: 400px; /* Adjust height as needed */
+}
+</style>
+</head>
+
+<header id="header">
+  <div class="navbar card" style="float: left;"><a href="/">Back</a></div>
+  <div class="navbar card"><a  href="/">Groupie-Tracker</a></div>
+
+</header>
+
+
+<body>
+
+<div class="container" style="min-height: 600px;">
+
+    <div style="padding:50px 100px!important">
+     <img src="{{.ArtistInfo.Image}}" style="border-radius:4px; opacity: 0.8;width: 150%;" alt="{{.ArtistInfo.Name}}">
+    </div>
+    <div style="padding:50px 100px!important">
+      <h1>{{.ArtistInfo.Name}}</h1><br>
+      <h5>Active since {{.ArtistInfo.CreationDate}}</h5>
+      <h5>First Release on {{.ArtistInfo.FirstAlbum}}</h5> <br>
+      <h6 style="font-size: 23px;">Members:</h6>
+      {{range $i, $v := .ArtistInfo.Members}}
+      <h5>{{$v}}</h5>
+      {{end}}
+    </div>
+
+</div>
+
+  <hr>
+
+
+<div class="container" style="max-width: 1000px;text-align: center;padding:50px!important">
+  <div >
+    <h1>Concerts dates and locations</h1><br>
+      {{range $location, $date := .ArtistInfo.LocationsEdited}}
+        <h4>{{$location}}: </h4>
+        {{range $date}}
+        <h7 style = "padding: 30px;">{{.}}</h7>
+        {{end}}
+        <br>
+        <br>
+      {{end}}  
+  </div>
+
+  <div>
+    <div id="googleMap"></div>
+  </div>
+
+</div>
+
+<script>
+    function myMap() {
+        var locations = JSON.parse('{{.EncodedLocations}}');
+      var mapProp = {
+        center: new google.maps.LatLng(locations[0].lat, locations[0].lng),
+        zoom: 1,
+      };
+      var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+    
+      locations.forEach(function(location) {
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(location.lat, location.lng),
+          map: map,
+          icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+        });
+      });
+    }
+    
+    </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZ65aafPZP_EQ6292Zb-5_GvZsKG_RE68&callback=myMap"></script>
+
+<footer>
+    <div class="footer-container">
+        <p>&copy; 2023 Groupie-Tracker. All rights reserved.</p>
+        <p>Designed by <a href="https://01.alem.school/git/bbilisbe/groupie-tracker">bbilisbe and yekuanysh</a></p>
+    </div>
+</footer>
+
+</body>
+</html>
